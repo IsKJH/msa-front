@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import api from '../utils/api';
 import SchoolIcon from '@mui/icons-material/School';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PhoneIcon from '@mui/icons-material/Phone';
@@ -7,6 +8,7 @@ import WebIcon from '@mui/icons-material/Web';
 import BusinessIcon from '@mui/icons-material/Business';
 import SearchIcon from '@mui/icons-material/Search';
 import RefreshIcon from '@mui/icons-material/Refresh';
+import TrainingModal from '../components/TrainingModal';
 
 function Institution() {
   const [institutions, setInstitutions] = useState([]);
@@ -15,6 +17,8 @@ function Institution() {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedInstitutions, setSelectedInstitutions] = useState(new Set());
+  const [selectedTraining, setSelectedTraining] = useState(null);
+  const [isTrainingModalOpen, setIsTrainingModalOpen] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -23,17 +27,10 @@ function Institution() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const [institutionResponse, trainingResponse] = await Promise.all([
-        fetch('http://localhost:8084/institutions'),
-        fetch('http://localhost:8084/training')
+      const [institutionData, trainingData] = await Promise.all([
+        api.get('information/institutions'),
+        api.get('information/training')
       ]);
-
-      if (!institutionResponse.ok || !trainingResponse.ok) {
-        throw new Error('API 요청 실패');
-      }
-
-      const institutionData = await institutionResponse.json();
-      const trainingData = await trainingResponse.json();
 
       setInstitutions(institutionData.data || []);
       setTrainings(trainingData.data || []);
@@ -63,6 +60,16 @@ function Institution() {
       }
       return newSet;
     });
+  };
+
+  const openTrainingModal = (training) => {
+    setSelectedTraining(training);
+    setIsTrainingModalOpen(true);
+  };
+
+  const closeTrainingModal = () => {
+    setSelectedTraining(null);
+    setIsTrainingModalOpen(false);
   };
 
   if (loading) {
@@ -208,7 +215,7 @@ function Institution() {
                     <h4 className="font-semibold text-gray-800 mb-2">훈련 과정</h4>
                     <div className="space-y-2">
                       {institutionTrainings.map((training) => (
-                        <div key={training.id} className="bg-gray-50 p-3 rounded-md">
+                        <div key={training.id} className="bg-gray-50 p-3 rounded-md hover:bg-gray-100 transition-colors cursor-pointer" onClick={() => openTrainingModal(training)}>
                           <div className="font-medium text-gray-800">{training.title}</div>
                           {training.ncsTypeDescription && (
                             <div className="text-sm text-gray-600 mt-1">
@@ -220,6 +227,9 @@ function Institution() {
                               기간: {training.duration}
                             </div>
                           )}
+                          <div className="text-xs text-blue-600 mt-2">
+                            클릭하여 상세 정보 보기
+                          </div>
                         </div>
                       ))}
                     </div>
@@ -247,6 +257,12 @@ function Institution() {
           )}
         </div>
       )}
+
+      <TrainingModal
+        isOpen={isTrainingModalOpen}
+        onClose={closeTrainingModal}
+        training={selectedTraining}
+      />
     </div>
   );
 }

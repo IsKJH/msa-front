@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import api from '../utils/api';
 import BookIcon from '@mui/icons-material/Book';
 import BusinessIcon from '@mui/icons-material/Business';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
@@ -24,17 +25,10 @@ function Training() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const [trainingResponse, institutionResponse] = await Promise.all([
-        fetch('http://localhost:8084/training'),
-        fetch('http://localhost:8084/institutions')
+      const [trainingData, institutionData] = await Promise.all([
+          api.get('information/training'),
+          api.get('information/institutions')
       ]);
-
-      if (!trainingResponse.ok || !institutionResponse.ok) {
-        throw new Error('API 요청 실패');
-      }
-
-      const trainingData = await trainingResponse.json();
-      const institutionData = await institutionResponse.json();
 
       setTrainings(trainingData.data || []);
       setInstitutions(institutionData.data || []);
@@ -53,9 +47,9 @@ function Training() {
     const matchesSearch = training.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          training.description?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesNcsType = !selectedNcsType || training.ncsTypeDescription === selectedNcsType;
-    const matchesInstitutionType = !selectedInstitutionType || 
+    const matchesInstitutionType = !selectedInstitutionType ||
                                   training.institutionName?.includes(selectedInstitutionType);
-    
+
     return matchesSearch && matchesNcsType && matchesInstitutionType;
   });
 
@@ -83,7 +77,7 @@ function Training() {
         <div className="bg-red-50 p-8 rounded-lg border border-red-200">
           <h2 className="text-xl font-semibold text-red-800 mb-3">오류 발생</h2>
           <p className="text-red-600 mb-4">{error}</p>
-          <button 
+          <button
             onClick={fetchData}
             className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors flex items-center space-x-2 mx-auto"
           >
@@ -105,7 +99,7 @@ function Training() {
         <p className="text-lg text-gray-600 mb-6">
           다양한 분야의 훈련 과정을 확인하고 원하는 교육을 선택하세요
         </p>
-        
+
         <div className="max-w-4xl mx-auto mb-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
             <div className="md:col-span-2 relative">
@@ -182,10 +176,10 @@ function Training() {
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 items-start">
         {filteredTrainings.map((training) => {
           const institution = getInstitutionById(training.institutionId);
-          
+
           return (
-            <div 
-              key={training.id} 
+            <div
+              key={training.id}
               className="bg-white rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-all duration-300 overflow-hidden h-fit"
             >
               <div className="bg-gradient-to-r from-green-500 to-green-600 text-white p-4">
@@ -258,8 +252,8 @@ function Training() {
         <div className="text-center py-12">
           <BookIcon className="text-6xl text-gray-300 mx-auto mb-4" />
           <p className="text-gray-500 text-lg">
-            {searchTerm || selectedNcsType || selectedInstitutionType 
-              ? '검색 조건에 맞는 훈련 과정이 없습니다.' 
+            {searchTerm || selectedNcsType || selectedInstitutionType
+              ? '검색 조건에 맞는 훈련 과정이 없습니다.'
               : '등록된 훈련 과정이 없습니다.'
             }
           </p>
