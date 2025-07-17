@@ -3,7 +3,7 @@ import {useState} from 'react';
 import {useAuth} from '../contexts/AuthContext';
 import HomeIcon from '@mui/icons-material/Home';
 import BookIcon from '@mui/icons-material/Book';
-import SupportIcon from '@mui/icons-material/Support';
+import HelpCenterIcon from '@mui/icons-material/HelpCenter';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -14,6 +14,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
 import SchoolIcon from '@mui/icons-material/School';
+import CommentOutlinedIcon from '@mui/icons-material/CommentOutlined';
 import LoginModal from './LoginModal';
 
 function Header() {
@@ -94,11 +95,20 @@ function Header() {
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/contact">
+                                <Link to="/qna">
                                     <button
                                         className="flex items-center space-x-2 hover:text-blue-600 transition-colors font-medium">
-                                        <SupportIcon/>
-                                        <span>문의하기</span>
+                                        <HelpCenterIcon/>
+                                        <span>Q&A</span>
+                                    </button>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/board">
+                                    <button
+                                        className="flex items-center space-x-2 hover:text-blue-600 transition-colors font-medium">
+                                        <CommentOutlinedIcon/>
+                                        <span>게시판</span>
                                     </button>
                                 </Link>
                             </li>
@@ -190,52 +200,62 @@ function Header() {
                                     <>
                                         {/* 사용자 정보 카드 */}
                                         <li className="mb-4">
-                                            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 border border-blue-200 shadow-sm">
+                                            <div
+                                                className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 border border-blue-200 shadow-sm">
                                                 <div className="flex items-center space-x-3">
-                                                    <div className="w-14 h-14 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center shadow-md">
+                                                    <div
+                                                        className="w-14 h-14 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center shadow-md">
                                                         <AccountCircleIcon className="text-white text-3xl"/>
                                                     </div>
                                                     <div className="flex-1">
-                                                        <div className="font-bold text-gray-800 text-lg">{user?.nickname}</div>
-                                                        <div className="text-sm text-gray-600 flex items-center space-x-2">
+                                                        <div
+                                                            className="font-bold text-gray-800 text-lg">{user?.nickname}</div>
+                                                        <div
+                                                            className="text-sm text-gray-600 flex items-center space-x-2">
                                                             <span>{user?.company}</span>
                                                             <span>•</span>
-                                                            <span className="text-blue-600 font-semibold">{user?.point}P</span>
+                                                            <span
+                                                                className="text-blue-600 font-semibold">{user?.point}P</span>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </li>
-                                        
+
                                         {/* 사용자 메뉴 */}
                                         <li>
-                                            <button className="w-full flex items-center space-x-3 hover:bg-blue-50 transition-colors font-medium py-3 px-4 rounded-lg text-left">
-                                                <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                                            <button
+                                                className="w-full flex items-center space-x-3 hover:bg-blue-50 transition-colors font-medium py-3 px-4 rounded-lg text-left">
+                                                <div
+                                                    className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
                                                     <PersonIcon className="text-blue-600 text-sm"/>
                                                 </div>
                                                 <span className="text-gray-700">내 정보</span>
                                             </button>
                                         </li>
                                         <li>
-                                            <button className="w-full flex items-center space-x-3 hover:bg-blue-50 transition-colors font-medium py-3 px-4 rounded-lg text-left">
-                                                <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                                            <button
+                                                className="w-full flex items-center space-x-3 hover:bg-blue-50 transition-colors font-medium py-3 px-4 rounded-lg text-left">
+                                                <div
+                                                    className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
                                                     <SettingsIcon className="text-blue-600 text-sm"/>
                                                 </div>
                                                 <span className="text-gray-700">설정</span>
                                             </button>
                                         </li>
-                                        
+
                                         {/* 구분선 */}
                                         <li>
                                             <hr className="my-3 border-gray-200"/>
                                         </li>
-                                        
+
                                         {/* 로그아웃 */}
                                         <li>
                                             <button
                                                 onClick={handleLogout}
                                                 className="w-full flex items-center space-x-3 hover:bg-red-50 transition-colors font-medium py-3 px-4 text-red-600 rounded-lg text-left">
-                                                <div className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center">
+                                                <div
+                                                    className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center">
                                                     <LogoutIcon className="text-red-500 text-sm"/>
                                                 </div>
                                                 <span>로그아웃</span>
@@ -255,17 +275,19 @@ function Header() {
                                         </li>
                                     </>
                                 )}
-                                
+
                                 {/* 구분선 */}
                                 <li>
                                     <hr className="my-3 border-gray-200"/>
                                 </li>
-                                
+
                                 {/* 일반 메뉴 */}
                                 <li>
                                     <Link to="/institutions" onClick={toggleMenu}>
-                                        <button className="w-full flex items-center space-x-3 hover:bg-gray-50 transition-colors font-medium py-3 px-4 rounded-lg text-left">
-                                            <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                                        <button
+                                            className="w-full flex items-center space-x-3 hover:bg-gray-50 transition-colors font-medium py-3 px-4 rounded-lg text-left">
+                                            <div
+                                                className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
                                                 <SchoolIcon className="text-blue-600 text-sm"/>
                                             </div>
                                             <span className="text-gray-700">훈련기관</span>
@@ -274,8 +296,10 @@ function Header() {
                                 </li>
                                 <li>
                                     <Link to="/training" onClick={toggleMenu}>
-                                        <button className="w-full flex items-center space-x-3 hover:bg-gray-50 transition-colors font-medium py-3 px-4 rounded-lg text-left">
-                                            <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                                        <button
+                                            className="w-full flex items-center space-x-3 hover:bg-gray-50 transition-colors font-medium py-3 px-4 rounded-lg text-left">
+                                            <div
+                                                className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
                                                 <BookIcon className="text-green-600 text-sm"/>
                                             </div>
                                             <span className="text-gray-700">교육과정</span>
@@ -283,12 +307,26 @@ function Header() {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to="/contact" onClick={toggleMenu}>
-                                        <button className="w-full flex items-center space-x-3 hover:bg-gray-50 transition-colors font-medium py-3 px-4 rounded-lg text-left">
-                                            <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
-                                                <SupportIcon className="text-purple-600 text-sm"/>
+                                    <Link to="/qna" onClick={toggleMenu}>
+                                        <button
+                                            className="w-full flex items-center space-x-3 hover:bg-gray-50 transition-colors font-medium py-3 px-4 rounded-lg text-left">
+                                            <div
+                                                className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                                                <HelpCenterIcon className="text-purple-600 text-sm"/>
                                             </div>
-                                            <span className="text-gray-700">문의하기</span>
+                                            <span className="text-gray-700">Q&A</span>
+                                        </button>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/board" onClick={toggleMenu}>
+                                        <button
+                                            className="w-full flex items-center space-x-3 hover:bg-gray-50 transition-colors font-medium py-3 px-4 rounded-lg text-left">
+                                            <div
+                                                className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                                                <CommentOutlinedIcon className="text-purple-600 text-sm"/>
+                                            </div>
+                                            <span className="text-gray-700">게시판</span>
                                         </button>
                                     </Link>
                                 </li>

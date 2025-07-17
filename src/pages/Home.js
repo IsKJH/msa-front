@@ -5,7 +5,7 @@ import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import StarIcon from '@mui/icons-material/Star';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import SpeedIcon from '@mui/icons-material/Speed';
-import SupportIcon from '@mui/icons-material/Support';
+import HelpCenterIcon from '@mui/icons-material/HelpCenter';
 
 function Home() {
   return (
@@ -60,7 +60,7 @@ function Home() {
 
             <div className="text-center p-8 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
               <div className="bg-gradient-to-r from-orange-500 to-orange-600 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                <SupportIcon className="text-white text-4xl" />
+                <HelpCenterIcon className="text-white text-4xl" />
               </div>
               <h3 className="text-xl font-bold text-gray-800 mb-3">
                 24/7 지원 서비스
